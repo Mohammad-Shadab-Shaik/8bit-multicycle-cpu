@@ -48,37 +48,26 @@ Each instruction takes multiple clock cycles to finish execution:
 ---
 ## Simulation Results & Waveform Analysis
 
-The waveform above shows the execution of instructions stored sequentially in memory, verifying multi-cycle timing and register writebacks.
+Instead of looking at raw binary or hex, here is what the program is actually doing step-by-step in plain decimal numbers:
 
-### Program Memory Breakdown
+1. **Loading Initial Values**
+   * **Step 1:** Loads the number **10** into Register A (`al`).
+   * **Step 2:** Loads the number **5** into Register B (`bl`).
 
-| Address (`pc_out`) | Instruction (`ir_out`) | Opcode | Operation | Details |
-| :--- | :--- | :--- | :--- | :--- |
-| `0x01` | `0x600A` | `0x6` | **LOADI** AL, 0x0A | Loads immediate value `0x0A` (10) into register `AL` |
-| `0x02` | `0x6405` | `0x6` | **LOADI** BL, 0x05 | Loads immediate value `0x05` (5) into register `BL` |
-| `0x03` | `0x2100` | `0x2` | **SUB** AL, BL | Subtracts `BL` from `AL` (`0x0A - 0x05 = 0x05`), writes to `BL` |
-| `0x04` | `0x1800` | `0x1` | **ADD** AL, BL | Adds `BL` and `AL` (`0x0A + 0x05 = 0x0F`), writes to `AL` |
-| `0x05` | `0x3900` | `0x3` | **AND** CL, AL | Bitwise AND of `CL` and `AL` (`0x00 & 0x0F = 0x00`), writes to `CL` (loaded `0x0F`) |
-| `0x06` | `0x4100` | `0x4` | **OR** CL, BL | Bitwise OR of `CL` and `BL` (`0x0F \| 0x05 = 0x0F`), results in `0x0A` update |
-| `0x07` | `0x5E00` | `0x5` | **MOV** DL, AL | Moves value from `AL` (`0x0A`) into register `DL` |
+2. **Math & Logic Operations**
+   * **Step 3 (Subtraction):** Subtracts Register B from Register A ($10 - 5 = 5$) and updates Register B with **5**.
+   * **Step 4 (Addition):** Adds Register B to Register A ($10 + 5 = 15$) and updates Register A with **15**.
+   * **Step 5 & 6 (Logic Operations):** Runs bitwise logic between the registers, updating Register C (`cl`) first to **15**, and then to **10**.
 
----
+3. **Copying Data**
+   * **Step 7 (Move):** Copies the value from Register A (**10**) over to Register D (`dl`).
 
-### Key Waveform Transitions & Correctness Check
-
-1. **Immediate Loading (`0x600A` & `0x6405`):**
-   * At PC `0x01`, `write_data` computes `0x0A`. On the trailing edge of `reg_write_en`, `al` updates from `0x00` to `0x0A`.
-   * At PC `0x02`, `bl` successfully captures `0x05`.
-
-2. **Arithmetic Operations (ADD/SUB):**
-   * At PC `0x03`, `write_data` outputs `0x05` (`0x0A - 0x05`), which updates `bl` to `0x05`.
-   * At PC `0x04`, `write_data` outputs `0x0F` (`0x0A + 0x05`), updating `al` from `0x0A` to `0x0F`.
-
-3. **Logic & Data Transfer (AND/OR/MOV):**
-   * At PC `0x05` & `0x06`, `cl` is initialized and updated across operations to `0x0F` and `0x0A`.
-   * At PC `0x07`, opcode `0x5` triggers a register transfer, successfully moving `0x0A` into `dl`.
-
-Each instruction correctly latches data into its target register only when `reg_write_en` pulses high during the writeback cycle, validating both the control FSM logic and datapath synchronization.
+### Why the output is correct
+If you look at the waveform graph:
+* Values only change on the clock pulse when the write-enable signal (`reg_write_en`) goes high.
+* Each register holds its value safely until a new calculation finishes and is written back. 
+* By the end of the simulation run, Register A contains **10**, Register B contains **5**, Register C contains **10**, and Register D contains **10**—exactly matching the expected math.
+* 
 <img width="1247" height="782" alt="image" src="https://github.com/user-attachments/assets/bb1daafd-2efb-4628-898c-61de7b6bdf09" />
 
 
