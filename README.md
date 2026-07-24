@@ -48,8 +48,6 @@ Each instruction takes multiple clock cycles to finish execution:
 ---
 ## Simulation Results & Waveform Analysis
 
-![CPU Simulation Trace](./image_c9f259.png)
-
 The waveform above shows the execution of instructions stored sequentially in memory, verifying multi-cycle timing and register writebacks.
 
 ### Program Memory Breakdown
