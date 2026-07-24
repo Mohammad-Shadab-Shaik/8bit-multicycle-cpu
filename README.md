@@ -47,6 +47,9 @@ Each instruction takes multiple clock cycles to finish execution:
 
 ---
 
+<img width="1247" height="782" alt="image" src="https://github.com/user-attachments/assets/bb1daafd-2efb-4628-898c-61de7b6bdf09" />
+
+
 ## How to Run the Simulation
 
 Make sure you have **Icarus Verilog** (`iverilog`) and **GTKWave** installed.
@@ -60,6 +63,4 @@ iverilog -o cpu_tb.vvp cpu_tb.v alu.v control_unit.v cpu.v decoder.v instruction
 
 # Run simulation to produce the VCD waveform file
 vvp cpu_tb.vvp
-
-<img width="1247" height="782" alt="image" src="https://github.com/user-attachments/assets/ab53cb8d-3174-445e-8ea3-32c46e65cef9" />
 
