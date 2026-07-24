@@ -62,8 +62,7 @@ Instead of looking at raw binary or hex, here is what the program is actually do
 3. **Copying Data**
    * **Step 7 (Move):** Copies the value from Register A (**10**) over to Register D (`dl`).
 
-### Why the output is correct
-If you look at the waveform graph:
+### Observations
 * Values only change on the clock pulse when the write-enable signal (`reg_write_en`) goes high.
 * Each register holds its value safely until a new calculation finishes and is written back. 
 * By the end of the simulation run, Register A contains **10**, Register B contains **5**, Register C contains **10**, and Register D contains **10**—exactly matching the expected math.
