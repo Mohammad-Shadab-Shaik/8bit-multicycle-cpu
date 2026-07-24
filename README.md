@@ -66,7 +66,6 @@ Instead of looking at raw binary or hex, here is what the program is actually do
 * Values only change on the clock pulse when the write-enable signal (`reg_write_en`) goes high.
 * Each register holds its value safely until a new calculation finishes and is written back. 
 * By the end of the simulation run, Register A contains **10**, Register B contains **5**, Register C contains **10**, and Register D contains **10**—exactly matching the expected math.
-* 
 <img width="1247" height="782" alt="image" src="https://github.com/user-attachments/assets/bb1daafd-2efb-4628-898c-61de7b6bdf09" />
 
 
