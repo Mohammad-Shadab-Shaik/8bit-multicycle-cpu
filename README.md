@@ -21,6 +21,21 @@ The CPU is split into modular Verilog components coordinated by a central top-le
 
 ---
 
+## Supported Operations
+
+The CPU supports the following set of instructions:
+
+| Opcode | Mnemonic | Description | Example Operation |
+| :--- | :--- | :--- | :--- |
+| `4'b0001` | **ADD** | Adds source register to target register | `Reg[dst] = Reg[dst] + Reg[src]` |
+| `4'b0010` | **SUB** | Subtracts source register from target register | `Reg[dst] = Reg[dst] - Reg[src]` |
+| `4'b0011` | **AND** | Bitwise AND between target and source registers | `Reg[dst] = Reg[dst] & Reg[src]` |
+| `4'b0100` | **OR** | Bitwise OR between target and source registers | `Reg[dst] = Reg[dst] \| Reg[src]` |
+| `4'b0101` | **MOV** | Moves data from source register to target register | `Reg[dst] = Reg[src]` |
+| `4'b0110` | **LOADI**| Loads immediate 8-bit value into target register | `Reg[dst] = Immediate` |
+
+---
+
 ## Execution Flow
 
 Each instruction takes multiple clock cycles to finish execution:
